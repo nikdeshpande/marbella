@@ -1,0 +1,41 @@
+Assignment – 19
+Views.
+
+1) Create a view that shows all of the customers who have the highest ratings.
+==>
+create view v_max_rat
+as 
+select * from customers where rating = 
+(select max(rating) from customers);
+
+2) Create a view that shows the number of salespeople in each city.
+==>
+create view v_no_people
+as 
+select city,count(*) from salespeople group by city;
+
+
+3) Create a view that shows the average and total orders for each salesperson after
+his or her name. Assume all names are unique.
+==>
+create view v_order_details
+as
+
+select salespeople.snum,sname,count(*) Total 
+from salespeople, orders 
+where salespeople.snum = orders.snum
+group by snum;
+
+
+4) Create a view that shows each salesperson with multiple customers.
+==>
+create view v_mul_cus
+as
+select * from 
+(select salespeople.snum,sname,salespeople.city,comm,count(customers.snum) Mul_Cus 
+from salespeople,customers 
+where salespeople.snum = customers.snum 
+group by customers.snum 
+having count(customers.snum) > 1) tempp;
+
+
